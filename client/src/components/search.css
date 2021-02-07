@@ -7,6 +7,18 @@
   align-items: space-around;
   justify-content: space-around;
 }
-#standard-basic {
-  margin-left: 50;
+.searchField {
+  display: flex;
+  flex-direction: row;
+  padding: 20px;
+  align-items: baseline;
+  justify-content: space-around;
+}
+.searchButton {
+  height: 30px;
+
+  margin: 200px;
+}
+.searchInput {
+  margin: 200px;
 }
