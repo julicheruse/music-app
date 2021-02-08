@@ -1,15 +1,17 @@
-import React, { useState } from "react";
-import "./search.css";
+import React, { useEffect, useState } from "react";
+import "./Search.css";
 import TextField from "@material-ui/core/TextField";
 import { Typography, Button } from "@material-ui/core";
 import axios from "axios";
+import SearchList from "./SearchList";
 
 export default function Search() {
   const [searching, setSearching] = useState("");
-  const [result, setResult] = useState([]);
+  const [result, setResult] = useState("");
+
+  useEffect(() => {}, []);
 
   const handleChange = (e) => {
-    console.log(e.target.value);
     setSearching(e.target.value);
   };
   const handleSubmit = (e) => {
@@ -23,30 +25,33 @@ export default function Search() {
   };
   console.log("res", result, "ser", searching);
   return (
-    <div className="container">
-      <p>
-        <Typography variant="h4">Spotify Search APP</Typography>
-      </p>
-      <form onSubmit={handleSubmit} className="searchField">
-        <TextField
-          id="searchInput"
-          label="Search"
-          size="small"
-          fullWidth="true"
-          margin="20px"
-          onChange={handleChange}
-        />
-        <Button
-          id="searchButton"
-          variant="contained"
-          color="primary"
-          size="small"
-          type="submit"
-          disabled={searching ? false : true}
-        >
-          Search
-        </Button>
-      </form>
+    <div>
+      <div className="container">
+        <p>
+          <Typography variant="h4">Spotify Search APP</Typography>
+        </p>
+        <form onSubmit={handleSubmit} className="searchField">
+          <TextField
+            id="searchInput"
+            label="Search"
+            size="small"
+            fullWidth="true"
+            margin="20px"
+            onChange={handleChange}
+          />
+          <Button
+            id="searchButton"
+            variant="contained"
+            color="primary"
+            size="small"
+            type="submit"
+            disabled={searching ? false : true}
+          >
+            Search
+          </Button>
+        </form>
+      </div>
+      <div>{result ? <SearchList data={result.artists} /> : null}</div>
     </div>
   );
 }

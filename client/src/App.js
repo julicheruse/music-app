@@ -1,5 +1,5 @@
 import { createMuiTheme, ThemeProvider } from "@material-ui/core";
-import Search from "./components/search";
+import Search from "./components/Search";
 
 const theme = createMuiTheme({
   palette: {

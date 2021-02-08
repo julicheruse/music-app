@@ -11,6 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "@material-ui/core": "^4.11.3",
+    "@material-ui/lab": "^4.0.0-alpha.57",
     "axios": "^0.21.1",
     "fontsource-roboto": "^4.0.0",
     "react": "^17.0.1",
