@@ -9,15 +9,16 @@ export default function Search() {
   const [searching, setSearching] = useState("");
   const [result, setResult] = useState("");
 
-  useEffect(() => {}, []);
+  //useEffect(() => {}, [result]);
 
   const handleChange = (e) => {
     setSearching(e.target.value);
   };
   const handleSubmit = (e) => {
     e.preventDefault();
+    setResult("");
     console.log("searching", searching);
-    axios(`http://localhost:8888/search?q=${searching}&type=artist`)
+    axios(`http://localhost:8888/search?q=${searching}&type=artist&offset=0`)
       .then((r) => setResult(r.data))
       .catch((err) => {
         console.log(err);

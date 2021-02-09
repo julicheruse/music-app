@@ -35,11 +35,11 @@ const useStyles = makeStyles({
 });
 
 export default function SearchList(props) {
-  const [data, setData] = useState("");
+  const [data, setData] = useState(props.data);
   const classes = useStyles();
   useEffect(() => {
     setData(props.data);
-  }, [Search]);
+  }, [props]);
 
   return (
     <TableContainer component={Paper}>
@@ -53,7 +53,7 @@ export default function SearchList(props) {
         </TableHead>
         <TableBody>
           {
-            (console.log("a", data),
+            (console.log("data en tabla", data),
             data &&
               data.items.map((row) => (
                 <StyledTableRow key={row.name}>
@@ -71,7 +71,7 @@ export default function SearchList(props) {
           }
         </TableBody>
       </Table>
-      <Pagination count={10} variant="outlined" color="primary" />;
+      <Pagination count={data.total} variant="outlined" color="primary" />;
     </TableContainer>
   );
 }
