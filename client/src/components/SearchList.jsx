@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
-import Pagination from "@material-ui/lab/Pagination";
+import Pagination, { usePagination } from "@material-ui/lab/Pagination";
 import { withStyles, makeStyles } from "@material-ui/core/styles";
+import axios from "axios";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
@@ -41,6 +42,23 @@ export default function SearchList(props) {
     setData(props.data);
   }, [props]);
 
+  const [page, setPage] = React.useState(1);
+
+  const getPageData = (pag) => {
+    let offset = pag === 1 ? 0 : (pag - 1) * 10;
+    axios(
+      `http://localhost:8888/search?q=${props.searching}&type=artist&offset=${offset}`
+    )
+      .then((r) => setData(r.data.artists))
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+    getPageData(newPage);
+  };
+
   return (
     <TableContainer component={Paper}>
       <Table className={classes.table} aria-label="customized table">
@@ -71,7 +89,17 @@ export default function SearchList(props) {
           }
         </TableBody>
       </Table>
-      <Pagination count={data.total} variant="outlined" color="primary" />;
+      <div style={{ padding: "15px" }}>
+        <Pagination
+          count={Math.ceil(data.total / 10)}
+          variant="outlined"
+          color="primary"
+          showFirstButton
+          showLastButton
+          page={page}
+          onChange={handleChangePage}
+        />
+      </div>
     </TableContainer>
   );
 }

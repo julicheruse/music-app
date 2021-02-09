@@ -52,7 +52,11 @@ export default function Search() {
           </Button>
         </form>
       </div>
-      <div>{result ? <SearchList data={result.artists} /> : null}</div>
+      <div>
+        {result ? (
+          <SearchList data={result.artists} searching={searching} />
+        ) : null}
+      </div>
     </div>
   );
 }
