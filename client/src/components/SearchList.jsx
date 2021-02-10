@@ -2,13 +2,14 @@ import React, { useEffect, useState } from "react";
 import Pagination, { usePagination } from "@material-ui/lab/Pagination";
 import { withStyles, makeStyles } from "@material-ui/core/styles";
 import axios from "axios";
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableContainer from "@material-ui/core/TableContainer";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
-import Paper from "@material-ui/core/Paper";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableRow,
+  Paper,
+} from "@material-ui/core";
 import Search from "./Search";
 
 const StyledTableCell = withStyles((theme) => ({
