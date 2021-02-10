@@ -1,39 +1,22 @@
 import React, { useEffect, useState } from "react";
-import Pagination, { usePagination } from "@material-ui/lab/Pagination";
-import { withStyles, makeStyles } from "@material-ui/core/styles";
 import axios from "axios";
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableContainer from "@material-ui/core/TableContainer";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
-import Paper from "@material-ui/core/Paper";
+import { makeStyles } from "@material-ui/core/styles";
+import Pagination from "@material-ui/lab/Pagination";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemText from "@material-ui/core/ListItemText";
+import ListItemAvatar from "@material-ui/core/ListItemAvatar";
+import Avatar from "@material-ui/core/Avatar";
+import Divider from "@material-ui/core/Divider";
 import Search from "./Search";
 
-const StyledTableCell = withStyles((theme) => ({
-  head: {
-    backgroundColor: "#212121",
-    color: theme.palette.common.white,
-  },
-  body: {
-    fontSize: 14,
-  },
-}))(TableCell);
-
-const StyledTableRow = withStyles((theme) => ({
+const useStyles = makeStyles((theme) => ({
   root: {
-    "&:nth-of-type(odd)": {
-      backgroundColor: theme.palette.action.hover,
-    },
+    width: "100%",
+    maxWidth: 360,
+    backgroundColor: theme.palette.background.paper,
   },
-}))(TableRow);
-
-const useStyles = makeStyles({
-  table: {
-    minWidth: 700,
-  },
-});
+}));
 
 export default function SearchList(props) {
   const [data, setData] = useState(props.data);
@@ -49,7 +32,7 @@ export default function SearchList(props) {
     axios(
       `http://localhost:8888/search?q=${props.searching}&type=artist&offset=${offset}`
     )
-      .then((r) => setData(r.data.artists))
+      .then((r) => setData(r.data))
       .catch((err) => {
         console.log(err);
       });
@@ -60,46 +43,29 @@ export default function SearchList(props) {
   };
 
   return (
-    <TableContainer component={Paper}>
-      <Table className={classes.table} aria-label="customized table">
-        <TableHead>
-          <TableRow>
-            <StyledTableCell align="left">Artist</StyledTableCell>
-            <StyledTableCell align="left">Followers</StyledTableCell>
-            <StyledTableCell align="left">Genres</StyledTableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {
-            (console.log("data en tabla", data),
-            data &&
-              data.items.map((row) => (
-                <StyledTableRow key={row.name}>
-                  <StyledTableCell component="th" scope="row">
-                    {row.name}
-                  </StyledTableCell>
-                  <StyledTableCell align="left">
-                    {row.followers.total}
-                  </StyledTableCell>
-                  <StyledTableCell align="left">
-                    {row.genres.toString()}
-                  </StyledTableCell>
-                </StyledTableRow>
-              )))
-          }
-        </TableBody>
-      </Table>
-      <div style={{ padding: "15px" }}>
-        <Pagination
-          count={Math.ceil(data.total / 10)}
-          variant="outlined"
-          color="primary"
-          showFirstButton
-          showLastButton
-          page={page}
-          onChange={handleChangePage}
-        />
-      </div>
-    </TableContainer>
+    <List>
+      {console.log(data) &&
+        data.items.map((item) => (
+          <ListItem key={item.id}>
+            {/* <ListItemAvatar>
+              <Avatar>
+                <img src={item.images[0].url} />
+              </Avatar>
+            </ListItemAvatar>*/}
+            <ListItemText primary={"item.name"} secondary={item.followers} />
+            <Divider variant="inset" component="li" />
+          </ListItem>
+        ))}
+      <Pagination
+        style={{ padding: "15px" }}
+        count={Math.ceil(data.total / 10)}
+        variant="outlined"
+        color="primary"
+        showFirstButton
+        showLastButton
+        page={page}
+        onChange={handleChangePage}
+      />
+    </List>
   );
 }

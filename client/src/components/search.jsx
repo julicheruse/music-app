@@ -24,7 +24,7 @@ export default function Search() {
         console.log(err);
       });
   };
-  console.log("res", result, "ser", searching);
+  //console.log("res", result, "ser", searching);
   return (
     <div>
       <div className="container">
