@@ -3,6 +3,10 @@ import Search from "./components/Search";
 
 const theme = createMuiTheme({
   palette: {
+    background: {
+      paper: "#212121",
+      default: "#212121",
+    },
     primary: {
       main: "#1db954",
     },

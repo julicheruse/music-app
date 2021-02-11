@@ -12,60 +12,99 @@ import Search from "./Search";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    width: "100%",
+    width: "80%",
     maxWidth: 360,
     backgroundColor: theme.palette.background.paper,
+  },
+  large: {
+    width: theme.spacing(6),
+    height: theme.spacing(6),
+  },
+  text: {
+    paddingLeft: 10,
+  },
+  cont: {
+    hover: "true",
   },
 }));
 
 export default function SearchList(props) {
-  const [data, setData] = useState(props.data);
+  const [datos, setDatos] = useState(props.data);
+  const [array, setArray] = useState(props.data.items);
+  console.log("d", datos);
   const classes = useStyles();
   useEffect(() => {
-    setData(props.data);
-  }, [props]);
+    setArray(props.data.items);
+    setDatos(props.data);
+  }, [props, Search]);
 
   const [page, setPage] = React.useState(1);
 
-  const getPageData = (pag) => {
+  const getPageData = async (pag) => {
     let offset = pag === 1 ? 0 : (pag - 1) * 10;
-    axios(
-      `http://localhost:8888/search?q=${props.searching}&type=artist&offset=${offset}`
-    )
-      .then((r) => setData(r.data))
+    console.log("o", offset, props.searching);
+    await axios
+      .get(
+        `http://localhost:8888/search?q=${props.searching}&type=artist&offset=${offset}`
+      )
+      .then((res) => {
+        setArray(res.data.artists.items);
+        setDatos(res.data.artists);
+      })
       .catch((err) => {
         console.log(err);
       });
   };
   const handleChangePage = (event, newPage) => {
+    event.preventDefault();
+    console.log("new", newPage);
     setPage(newPage);
     getPageData(newPage);
   };
-
+  console.log(array);
   return (
     <List>
-      {console.log(data) &&
-        data.items.map((item) => (
-          <ListItem key={item.id}>
-            {/* <ListItemAvatar>
-              <Avatar>
-                <img src={item.images[0].url} />
-              </Avatar>
-            </ListItemAvatar>*/}
-            <ListItemText primary={"item.name"} secondary={item.followers} />
+      {array &&
+        array.map((item) => (
+          <div>
+            <ListItem
+              key={item && item.id}
+              dense
+              button
+              className={classes.cont}
+            >
+              <ListItemAvatar>
+                <Avatar
+                  src={item.images[0] && item.images[0].url}
+                  className={classes.large}
+                ></Avatar>
+              </ListItemAvatar>
+
+              <ListItemText
+                className={classes.text}
+                primary={item.name ? item.name : "N/A"}
+                secondary={
+                  item.followers.total
+                    ? "Followers: " + item.followers.total
+                    : "N/A"
+                }
+              />
+            </ListItem>
             <Divider variant="inset" component="li" />
-          </ListItem>
+          </div>
         ))}
-      <Pagination
-        style={{ padding: "15px" }}
-        count={Math.ceil(data.total / 10)}
-        variant="outlined"
-        color="primary"
-        showFirstButton
-        showLastButton
-        page={page}
-        onChange={handleChangePage}
-      />
+      {array ? (
+        <Pagination
+          style={{ padding: "15px" }}
+          count={Math.ceil(datos.total / 10)}
+          variant="outlined"
+          color="primary"
+          showFirstButton
+          showLastButton
+          page={page}
+          onChange={handleChangePage}
+        />
+      ) : null}
     </List>
   );
 }

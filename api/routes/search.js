@@ -5,11 +5,12 @@ const server = express();
 
 server.get("/", (req, res) => {
   const { q, type, offset } = req.query;
+  console.log("api");
   getAuth()
     .then((token) => {
       axios
         .get(
-          `https://api.spotify.com/v1/search?q=${q}&type=${type}&offset=${offset}&limit=10`,
+          `https://api.spotify.com/v1/search?q=${q}&type=${type}&market=US&offset=${offset}&limit=10`,
           {
             headers: {
               Authorization: "Bearer " + token,
