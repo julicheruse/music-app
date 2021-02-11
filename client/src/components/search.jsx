@@ -6,8 +6,8 @@ import axios from "axios";
 import SearchList from "./SearchList";
 
 export default function Search() {
-  const [searching, setSearching] = useState("");
-  const [result, setResult] = useState("");
+  const [searching, setSearching] = useState([]);
+  const [result, setResult] = useState([]);
 
   //useEffect(() => {}, [result]);
 
@@ -16,15 +16,15 @@ export default function Search() {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    setResult("");
+    setResult([]);
     console.log("searching", searching);
     axios(`http://localhost:8888/search?q=${searching}&type=artist&offset=0`)
-      .then((r) => setResult(r.data))
+      .then((r) => setResult(r.data.artists))
       .catch((err) => {
         console.log(err);
       });
   };
-  console.log("res", result, "ser", searching);
+
   return (
     <div>
       <div className="container">
@@ -53,9 +53,7 @@ export default function Search() {
         </form>
       </div>
       <div>
-        {result ? (
-          <SearchList data={result.artists} searching={searching} />
-        ) : null}
+        {result ? <SearchList data={result} searching={searching} /> : null}
       </div>
     </div>
   );
