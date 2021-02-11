@@ -42,7 +42,6 @@ export default function SearchList(props) {
 
   const getPageData = async (pag) => {
     let offset = pag === 1 ? 0 : (pag - 1) * 10;
-    console.log("o", offset, props.searching);
     await axios
       .get(
         `http://localhost:8888/search?q=${props.searching}&type=artist&offset=${offset}`
@@ -57,11 +56,10 @@ export default function SearchList(props) {
   };
   const handleChangePage = (event, newPage) => {
     event.preventDefault();
-    console.log("new", newPage);
     setPage(newPage);
     getPageData(newPage);
   };
-  console.log(array);
+
   return (
     <List>
       {array &&

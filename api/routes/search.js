@@ -5,7 +5,7 @@ const server = express();
 
 server.get("/", (req, res) => {
   const { q, type, offset } = req.query;
-  console.log("api");
+
   getAuth()
     .then((token) => {
       axios
