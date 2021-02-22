@@ -1,5 +1,8 @@
 import { createMuiTheme, ThemeProvider } from "@material-ui/core";
+import { Route, HashRouter as Router } from "react-router-dom";
+import About from "./components/About";
 import Search from "./components/Search";
+import Track from "./components/Track";
 
 const theme = createMuiTheme({
   palette: {
@@ -35,7 +38,11 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <div className="App">
-        <Search />
+        <Router>
+          <Route exact path="/" component={Search} />
+          <Route path="/about/:id" component={About} />
+          <Route path="/track/:id" component={Track} />
+        </Router>
       </div>
     </ThemeProvider>
   );
