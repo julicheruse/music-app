@@ -3,7 +3,8 @@ import "./Search.css";
 import TextField from "@material-ui/core/TextField";
 import { Typography, Button } from "@material-ui/core";
 import axios from "axios";
-import SearchList from "./SearchList";
+import SearchArtistList from "./SearchArtistList";
+import SearchTrackList from "./SearchTrackList";
 
 export default function Search() {
   const [searching, setSearching] = useState([]);
@@ -18,8 +19,8 @@ export default function Search() {
     e.preventDefault();
     setResult([]);
     console.log("searching", searching);
-    axios(`http://localhost:8888/search?q=${searching}&type=artist&offset=0`)
-      .then((r) => setResult(r.data.artists))
+    axios(`http://localhost:8888/search?q=${searching}&type=track&offset=0`)
+      .then((r) => setResult(r.data))
       .catch((err) => {
         console.log(err);
       });
@@ -53,7 +54,13 @@ export default function Search() {
         </form>
       </div>
       <div>
-        {result ? <SearchList data={result} searching={searching} /> : null}
+        {result ? (
+          result.artists ? (
+            <SearchArtistList data={result.artists} searching={searching} />
+          ) : result.tracks ? (
+            <SearchTrackList data={result.tracks} searching={searching} />
+          ) : null
+        ) : null}
       </div>
     </div>
   );
