@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import axios from "axios";
 import { makeStyles } from "@material-ui/core/styles";
 import Pagination from "@material-ui/lab/Pagination";
@@ -28,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SearchList(props) {
+export default function SearchArtistList(props) {
   const [datos, setDatos] = useState(props.data);
   const [array, setArray] = useState(props.data.items);
   console.log("d", datos);
@@ -65,35 +66,37 @@ export default function SearchList(props) {
       {array &&
         array.map((item) => (
           <div>
-            <ListItem
-              key={item && item.id}
-              dense
-              button
-              className={classes.cont}
-            >
-              <ListItemAvatar>
-                <Avatar
-                  src={item.images[0] && item.images[0].url}
-                  className={classes.large}
-                ></Avatar>
-              </ListItemAvatar>
+            <Link to={`/about/${item.id}`}>
+              <ListItem
+                key={item && item.id}
+                dense
+                button
+                className={classes.cont}
+              >
+                <ListItemAvatar>
+                  <Avatar
+                    src={item.images[0] && item.images[0].url}
+                    className={classes.large}
+                  ></Avatar>
+                </ListItemAvatar>
 
-              <ListItemText
-                className={classes.text}
-                primary={item.name ? item.name : "N/A"}
-                secondary={
-                  item.followers.total
-                    ? "Followers: " + item.followers.total
-                    : "N/A"
-                }
-              />
-            </ListItem>
+                <ListItemText
+                  className={classes.text}
+                  primary={item.name ? item.name : "N/A"}
+                  secondary={
+                    item.followers.total
+                      ? "Followers: " + item.followers.total
+                      : "N/A"
+                  }
+                />
+              </ListItem>
+            </Link>
             <Divider variant="inset" component="li" />
           </div>
         ))}
       {array ? (
         <Pagination
-          style={{ padding: "15px" }}
+          style={{ padding: "15px", display: "flex", justifyContent: "center" }}
           count={Math.ceil(datos.total / 10)}
           variant="outlined"
           color="primary"

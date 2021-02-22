@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import { withStyles } from "@material-ui/core/styles";
 import { Paper, Typography, CardMedia } from "@material-ui/core";
+import capitalize from "./utils";
 
 const StyledPaper = withStyles({
   root: {
@@ -25,7 +26,7 @@ export default function About(props) {
   }, []);
   const getAbout = async (id) => {
     await axios
-      .get(`http://localhost:8888/about/${id}`)
+      .get(`http://localhost:8888/artist/${id}`)
       .then((res) => {
         console.log(res);
         setAbout(res.data);
@@ -34,33 +35,39 @@ export default function About(props) {
         alert(err);
       });
   };
+
+  /* const [albums, setAlbums] = useState("");
   const getAlbums = async (id) => {
     await axios
-      .get(`http://localhost:8888/about/${id}`)
+      .get(`http://localhost:8888/about/${id}/albums`)
       .then((res) => {
         console.log(res);
-        setAbout(res.data);
+        setAlbums(res.data);
       })
       .catch((err) => {
         alert(err);
       });
-  };
+  }; */
   return (
     <StyledPaper elevation={3}>
       <CardMedia
         component="img"
         alt={`${about.name && about.name} Image`}
         height="140"
-        //image={about.images[0].url}
+        image={about ? about.images[0].url : null}
         title={`${about.name && about.name} Image`}
       />
       <p>
         <Typography variant="h4">{about.name && about.name}</Typography>
       </p>
       <div>
-        <Typography variant="body2" color="textSecondary" component="p">
-          Lizards are a widespread group of squamate reptiles, with over 6,000
-          species, ranging across all continents except Antarctica
+        <Typography variant="body2" color="#b3b3b3" component="p">
+          {`Followers: ${about.followers ? about.followers.total : null}`}
+        </Typography>
+        <Typography variant="body2" color="white" component="p">
+          {`Genres:${
+            about ? about.genres.map((e) => " " + capitalize(e)) : null
+          }`}{" "}
         </Typography>
       </div>
     </StyledPaper>
