@@ -15,7 +15,7 @@ Run "npm install" in both /api and /client directories of the project's main dir
 
 Create a .env file in the /api directory of the project.
 
-Open [https://developer.spotify.com/dashboard/login](Spotify Api Dashboard) Create an app and copy the client ID and client Secret to the file you created.
+Open [Spotify API Dashboard](https://developer.spotify.com/dashboard/login) Create an app and copy the client ID and client Secret to the file you created.
 It should look like this:
 
 ```
