@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import { withStyles } from "@material-ui/core/styles";
+import { withStyles, makeStyles } from "@material-ui/core/styles";
 import { Paper, Typography, CardMedia } from "@material-ui/core";
-import { toMinsAndSecs } from "./utils";
+import capitalize, { toMinsAndSecs } from "./utils";
 
 const StyledPaper = withStyles({
   root: {
@@ -17,10 +17,16 @@ const StyledPaper = withStyles({
   },
 })(Paper);
 
+const useStyles = makeStyles((theme) => ({
+  text: {
+    paddingLeft: 10,
+  },
+}));
+
 export default function Track(props) {
   const { id } = useParams();
   const [track, setTrack] = useState("");
-
+  const classes = useStyles();
   useEffect(() => {
     getTrack(id);
   }, []);
@@ -43,11 +49,19 @@ export default function Track(props) {
         alt={`${track.name && track.name} Image`}
         image={track ? track.album.images[0].url : null}
         title={`${track.name && track.name} Image`}
+        height="200px"
       />
       <p>
         <Typography variant="h4">{track.name && track.name}</Typography>
-        <Typography variant="h4">
-          {track.artists && track.artists.map((a) => a.name + " ")}
+        <Typography variant="h5">
+          {`Artists:${
+            track.artists
+              ? track.artists.map((a) => " " + capitalize(a.name))
+              : null
+          }`}
+        </Typography>
+        <Typography variant="h5" className={classes.texto}>
+          {track.album && "Album: " + track.album.name}
         </Typography>
       </p>
       <div>
